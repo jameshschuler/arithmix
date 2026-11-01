@@ -4,9 +4,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { QuizScreen } from '@/components/quiz/QuizScreen'
 import { QuizProvider } from '@/contexts/quiz-context'
+import { db } from '@/lib/db'
 import { formatProblem } from '@/lib/format'
 import { generateProblems } from '@/lib/problems'
-import type { QuizResult } from '@/types/quiz'
+import { getRunDetails } from '@/lib/storage'
 
 const SEED = 1234
 const PROBLEMS = generateProblems('multiply', SEED)
@@ -22,7 +23,7 @@ function renderQuiz() {
           </QuizProvider>
         ),
       },
-      { path: '/results', element: <p>results</p> },
+      { path: '/results/:runId', element: <p>results</p> },
     ],
     { initialEntries: ['/play'] },
   )
@@ -54,8 +55,19 @@ function typeAnswer(answer: number) {
   }
 }
 
-beforeEach(() => {
-  vi.useFakeTimers()
+beforeEach(async () => {
+  await db.delete()
+  await db.open()
+  vi.useFakeTimers({
+    toFake: [
+      'setTimeout',
+      'clearTimeout',
+      'Date',
+      'performance',
+      'requestAnimationFrame',
+      'cancelAnimationFrame',
+    ],
+  })
   vi.setSystemTime(0)
 })
 
@@ -104,16 +116,17 @@ describe('QuizScreen', () => {
     expect(screen.getByLabelText('Problem')).toHaveTextContent(formatProblem(PROBLEMS[1]))
   })
 
-  it('shows results when time runs out', () => {
+  it('saves the run and shows its results when time runs out', async () => {
     const router = renderQuiz()
     finishCountdown()
     typeAnswer(PROBLEMS[0].answer)
 
     advance(30_000)
 
-    const result = router.state.location.state as QuizResult
-    expect(router.state.location.pathname).toBe('/results')
-    expect(result).toMatchObject({ correct: 1, elapsedMs: 30_000, finishedEarly: false })
+    await vi.waitFor(() => expect(router.state.location.pathname).toMatch(/^\/results\/\d+$/))
+    const runId = Number(router.state.location.pathname.split('/').at(-1))
+    const details = await getRunDetails(runId)
+    expect(details?.run).toMatchObject({ correct: 1, elapsedMs: 30_000, finishedEarly: false })
   })
 
   it('voids the run when the page is hidden', () => {
@@ -126,5 +139,17 @@ describe('QuizScreen', () => {
     })
 
     expect(screen.getByText('Quiz stopped')).toBeInTheDocument()
+  })
+
+  it('shows the score with a warning when the run cannot be saved', async () => {
+    vi.spyOn(db.runs, 'add').mockRejectedValue(new Error('QuotaExceededError'))
+    renderQuiz()
+    finishCountdown()
+    typeAnswer(PROBLEMS[0].answer)
+
+    advance(30_000)
+
+    await vi.waitFor(() => expect(screen.getByText('1 correct')).toBeInTheDocument())
+    expect(screen.getByText(/couldn.t be saved/)).toBeInTheDocument()
   })
 })

@@ -173,7 +173,7 @@ UI: shadcn on Base UI, lucide icons, Fredoka font. Light/dark follows the system
 
 1. **Engine** ✅ — PRNG, generators, scoring + unit tests. Achievements moved to milestone 3 (they need run history).
 2. **Playable quiz** ✅ — reducer, clock, keypad + keyboard input, Results (in-memory, passed via router state).
-3. **Persistence** — Dexie, personal leaderboard, achievements, optional nickname.
+3. **Persistence** ✅ — Dexie, personal leaderboard, achievements, optional nickname, light/dark/system theme. Results live at `/results/:runId` and load from IndexedDB. Theme choice is kept in localStorage so it applies before first paint.
 4. **PWA** — manifest, icons, offline precache, install prompt, iOS standalone fixes.
 5. **Polish** — haptics (`navigator.vibrate`), sound toggle, `prefers-reduced-motion`, Playwright timing tests.
 

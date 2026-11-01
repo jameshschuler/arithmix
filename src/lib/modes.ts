@@ -8,6 +8,11 @@ export const MODES: { id: Mode; label: string }[] = [
 
 export const DURATIONS: Duration[] = [30, 60, 90]
 
+export const DURATION_OPTIONS = DURATIONS.map((duration) => ({
+  id: duration,
+  label: `${duration}s`,
+}))
+
 export const OPERATION_SYMBOLS: Record<Operation, string> = {
   multiply: '×',
   divide: '÷',

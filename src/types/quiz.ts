@@ -39,3 +39,21 @@ export type QuizResult = {
   elapsedMs: number
   finishedEarly: boolean
 }
+
+export type Run = QuizResult & {
+  id: number
+  playedAt: number
+  rank: Rank | null
+  nickname?: string
+}
+
+export type UnlockedAchievement = {
+  id: string
+  runId: number
+  unlockedAt: number
+}
+
+export type Profile = {
+  id: 'me'
+  nickname?: string
+}
