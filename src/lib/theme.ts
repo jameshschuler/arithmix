@@ -10,6 +10,8 @@ export const THEME_STORAGE_KEY = 'arithmix-theme'
 
 export const THEME_COLORS = { light: '#ffffff', dark: '#0a0a0a' }
 
+export const BRAND_COLOR = '#5560e0'
+
 export function parseTheme(value: string | null): Theme {
   return value === 'light' || value === 'dark' ? value : 'system'
 }

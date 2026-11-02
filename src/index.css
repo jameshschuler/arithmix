@@ -137,6 +137,7 @@
   }
   html {
     @apply font-sans;
+    overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
   }
 }
