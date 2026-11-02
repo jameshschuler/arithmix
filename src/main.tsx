@@ -4,7 +4,10 @@ import { RouterProvider } from 'react-router/dom'
 
 import '@/index.css'
 import { ThemeProvider } from '@/contexts/theme-context'
+import { listenForInstallPrompt } from '@/lib/install-prompt'
 import { router } from '@/router'
+
+listenForInstallPrompt()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

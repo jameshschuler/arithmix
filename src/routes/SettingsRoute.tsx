@@ -1,3 +1,4 @@
+import { InstallSection } from '@/components/settings/InstallSection'
 import { NicknameForm } from '@/components/settings/NicknameForm'
 import { ThemePicker } from '@/components/settings/ThemePicker'
 import { PageHeader } from '@/components/shared/PageHeader'
@@ -8,6 +9,7 @@ export function SettingsRoute() {
       <PageHeader title="Settings" />
       <NicknameForm />
       <ThemePicker />
+      <InstallSection />
     </div>
   )
 }
