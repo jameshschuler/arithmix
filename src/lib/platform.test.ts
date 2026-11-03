@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { canAddToHomeScreen, isStandalone } from '@/lib/platform'
+import { canAddToHomeScreen, isStandalone, prefersReducedMotion } from '@/lib/platform'
 
 const IPHONE =
   'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1'
@@ -39,5 +39,13 @@ describe('isStandalone', () => {
     vi.stubGlobal('matchMedia', () => ({ matches: false }))
 
     expect(isStandalone()).toBe(false)
+  })
+})
+
+describe('prefersReducedMotion', () => {
+  it.each([true, false])('reads the reduced motion setting as %s', (matches) => {
+    vi.stubGlobal('matchMedia', () => ({ matches }))
+
+    expect(prefersReducedMotion()).toBe(matches)
   })
 })

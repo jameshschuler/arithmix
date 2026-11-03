@@ -177,3 +177,13 @@ export function missedProblems(result: Pick<QuizResult, 'problems' | 'events'>):
 
   return result.problems.filter((problem) => missedIds.has(problem.id))
 }
+
+export type Outcome = 'correct' | 'miss'
+
+export function lastOutcome(events: QuizEvent[]): Outcome | null {
+  const event = events.findLast(
+    (candidate) => candidate.kind === 'correct' || candidate.kind === 'miss',
+  )
+
+  return event ? (event.kind as Outcome) : null
+}

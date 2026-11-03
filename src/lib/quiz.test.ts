@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   createQuiz,
+  lastOutcome,
   missedProblems,
   quizReducer,
   toResult,
@@ -167,5 +168,24 @@ describe('missedProblems', () => {
 
   it('is empty when nothing was missed', () => {
     expect(missedProblems(toResult(playing()))).toEqual([])
+  })
+})
+
+describe('lastOutcome', () => {
+  it('ignores digits typed after the last answer', () => {
+    const state = apply(playing(), [...typeDigits('57'), ...typeDigits('5')])
+
+    expect(state.events.at(-1)?.kind).toBe('digit')
+    expect(lastOutcome(state.events)).toBe('miss')
+  })
+
+  it('reports a correct answer', () => {
+    const state = apply(playing(), typeDigits('56'))
+
+    expect(lastOutcome(state.events)).toBe('correct')
+  })
+
+  it('is null before any answer', () => {
+    expect(lastOutcome(playing().events)).toBeNull()
   })
 })

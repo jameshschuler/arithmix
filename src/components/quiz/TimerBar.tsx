@@ -24,7 +24,7 @@ export function TimerBar() {
         aria-label="Seconds left"
         className={cn(
           'w-8 text-right text-lg font-medium tabular-nums',
-          lowTime && 'text-destructive',
+          lowTime && 'animate-pulse text-destructive',
         )}
       >
         {formatSeconds(remaining)}

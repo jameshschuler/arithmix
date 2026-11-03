@@ -2,6 +2,8 @@ import { createContext, useContext, useMemo, useReducer, type ReactNode } from '
 
 import { useKeyboardInput } from '@/hooks/useKeyboardInput'
 import { useQuizClock } from '@/hooks/useQuizClock'
+import { useQuizMusic } from '@/hooks/useQuizMusic'
+import { useQuizSounds } from '@/hooks/useQuizSounds'
 import { useVoidWhenHidden } from '@/hooks/useVoidWhenHidden'
 import { generateProblems } from '@/lib/problems'
 import { createQuiz, quizReducer, type QuizState } from '@/lib/quiz'
@@ -45,6 +47,8 @@ export function QuizProvider({ mode, duration, seed, children }: QuizProviderPro
   useQuizClock(playing ? state.endsAt : null, () => dispatch({ type: 'expire' }))
   useVoidWhenHidden(playing, () => dispatch({ type: 'void' }))
   useKeyboardInput(playing, actions)
+  useQuizSounds(state)
+  useQuizMusic(playing ? state.endsAt : null)
 
   return <QuizContext.Provider value={{ state, actions }}>{children}</QuizContext.Provider>
 }
