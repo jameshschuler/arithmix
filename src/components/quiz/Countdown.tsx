@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { useQuizContext } from '@/contexts/quiz-context'
+import { sounds } from '@/lib/audio'
 
 const COUNTDOWN_FROM = 3
 
@@ -9,10 +10,15 @@ export function Countdown() {
   const [count, setCount] = useState(COUNTDOWN_FROM)
 
   useEffect(() => {
+    sounds.countdownTick()
+  }, [count])
+
+  useEffect(() => {
     const timeout = window.setTimeout(() => {
       if (count > 1) {
         setCount(count - 1)
       } else {
+        sounds.go()
         actions.start(performance.now())
       }
     }, 1000)

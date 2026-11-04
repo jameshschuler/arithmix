@@ -175,7 +175,7 @@ UI: shadcn on Base UI, lucide icons, Fredoka font. Light/dark follows the system
 2. **Playable quiz** ✅ — reducer, clock, keypad + keyboard input, Results (in-memory, passed via router state).
 3. **Persistence** ✅ — Dexie, personal leaderboard, achievements, optional nickname, light/dark/system theme. Results live at `/results/:runId` and load from IndexedDB. Theme choice is kept in localStorage so it applies before first paint.
 4. **PWA** ✅ — manifest, icons (generated at build from `public/favicon.svg`), offline precache, install button in Settings (Share → Add to Home Screen hint on iOS), iOS standalone meta tags. Updates wait for the player to tap Update. The banner is hidden during a quiz, so a new version never reloads the page mid-run.
-5. **Polish** — haptics (`navigator.vibrate`), sound toggle, `prefers-reduced-motion`, Playwright timing tests.
+5. **Polish** ✅ — sound effects, music and vibration, each with its own switch in Settings. All audio is synthesized with the Web Audio API (no audio files), so it works offline. The music is an original 4-bar loop that speeds up in the last 10 seconds. Animations: problem slide-in, green flash on a correct answer, shake on a miss, score pop, timer pulse, and a results reveal (stars pop in one by one with chimes, the score counts up). `prefers-reduced-motion` turns animations off. Playwright tests (`pnpm test:e2e`) cover quiz timing, saved results and offline play in Chrome.
 
 ## Later
 

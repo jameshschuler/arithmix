@@ -21,7 +21,9 @@ export function QuizStatusBar() {
           <X className="size-5" />
         </Button>
         <p aria-label="Correct answers" className="text-lg font-medium tabular-nums">
-          {state.correct}
+          <span key={state.correct} className="inline-block animate-in duration-200 zoom-in-150">
+            {state.correct}
+          </span>
           <span className="text-muted-foreground">/{state.problems.length}</span>
         </p>
       </div>

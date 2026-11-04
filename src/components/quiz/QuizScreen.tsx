@@ -26,7 +26,8 @@ export function QuizScreen() {
     let mounted = true
 
     saveResult().then(
-      (runId) => mounted && navigate(`/results/${runId}`, { replace: true }),
+      (runId) =>
+        mounted && navigate(`/results/${runId}`, { replace: true, state: { celebrate: true } }),
       () => mounted && setSaveFailed(true),
     )
 

@@ -11,3 +11,7 @@ export function isStandalone(): boolean {
     ('standalone' in navigator && navigator.standalone === true)
   )
 }
+
+export function prefersReducedMotion(): boolean {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}

@@ -9,6 +9,7 @@
   --font-heading: var(--font-sans);
   --font-sans: 'Fredoka Variable', ui-rounded, system-ui, sans-serif;
   --color-gold: var(--gold);
+  --color-success: var(--success);
   --color-silver: var(--silver);
   --color-bronze: var(--bronze);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -71,6 +72,7 @@
   --input: oklch(0.922 0 0);
   --ring: oklch(0.55 0.2 275);
   --gold: oklch(0.8 0.16 85);
+  --success: oklch(0.65 0.17 150);
   --silver: oklch(0.72 0.02 260);
   --bronze: oklch(0.62 0.12 50);
   --chart-1: oklch(0.87 0 0);
@@ -111,6 +113,7 @@
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.68 0.17 275);
   --gold: oklch(0.83 0.15 85);
+  --success: oklch(0.72 0.17 150);
   --silver: oklch(0.78 0.02 260);
   --bronze: oklch(0.68 0.12 50);
   --chart-1: oklch(0.87 0 0);
@@ -162,4 +165,26 @@
 
 @utility animate-miss {
   animation: miss 240ms ease-in-out;
+}
+
+@keyframes correct {
+  0% {
+    border-color: var(--success);
+    background-color: color-mix(in oklch, var(--success) 15%, transparent);
+  }
+}
+
+@utility animate-correct {
+  animation: correct 250ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
